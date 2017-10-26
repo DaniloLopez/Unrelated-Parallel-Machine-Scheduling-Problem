@@ -15,7 +15,12 @@ public class Metaheuristicas_Grasp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        int numberJobs; //number of jobs
+        int numberMachines; //number of machines
+        
+        int numberREpeatHC; //number of repetitions to run algorithm hill climbing search
+        
+        
     }
     
 }
