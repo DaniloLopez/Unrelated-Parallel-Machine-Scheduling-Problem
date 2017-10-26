@@ -54,14 +54,16 @@ public class Grasp {
     }
 
     private Solution tweak(Solution solution) {
+        //alterar la solucion con alguna modificacion de parametros de idle, timeconfig no se debria tocar
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private boolean idealSolution(Solution best) {
+        //evaular se la solucion es la ideal
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private int foundMachineLowestFitness(List<Machine> machines) {
+    private int foundMachineLowestFitness(List<Machine> machines) {        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
           
@@ -69,16 +71,19 @@ public class Grasp {
         list.sort(new Comparator<Job>() {
             @Override
             public int compare(Job t, Job t1) {
+                //implementar criterio de comparacion
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
     }
 
     private void calculateObjetiveFunction(List<Machine> machines) {
+        //calcular la funcion obj de cada machine
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public List<Job> copyListJobs(List<Job> list){
+        //metodo para copiar una lista a otra
         throw new UnsupportedOperationException("not suport yet");
     }
 }

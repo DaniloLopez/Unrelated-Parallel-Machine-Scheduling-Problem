@@ -9,14 +9,15 @@ import java.util.Objects;
 public class Job {
     int id;
     double complex; //indica la complejidad del trabajo que se ingresa
-    double processingTime;  //Pjk - Ci,k = Completion time of job i at machine k
-    String dueDate;         //dj - due date
+    double procesingTime;  //Pjk - Ci,k = Completion time of job i at machine k
+    double timeStartProcesing;
+    double dueDate;         //dj - due date
     double aj;              //alpha Aj.
     double bj;              //betha Bj.
     double earlines;        //  Ei = Earliness of job i
     double tardiness;       // Ti = Tardiness of job i
 
-    public Job(int id, String dueDate, double aj, double bj) {
+    public Job(int id, double dueDate, double aj, double bj) {
         this.id = id;
         this.dueDate = dueDate;
         this.aj = aj;
@@ -31,19 +32,19 @@ public class Job {
         this.id = id;
     }
 
-    public double getProcessingTime() {
-        return processingTime;
+    public double getProcesingTime() {
+        return procesingTime;
     }
 
-    public void setProcessingTime(double processingTime) {
-        this.processingTime = processingTime * complex;
+    public void setProcesingTime(double procesingTime) {
+        this.procesingTime = procesingTime * complex;        
     }
 
-    public String getDueDate() {
+    public double getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(double dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -87,6 +88,15 @@ public class Job {
         this.complex = complex;
     }
 
+    public double getTimeStartProcesing() {
+        return timeStartProcesing;
+    }
+
+    public void setTimeStartProcesing(double timeStartProcesing) {
+        this.timeStartProcesing = timeStartProcesing;
+        this.earlines = Math.max(0, (this.dueDate - (this.timeStartProcesing + this.procesingTime)));
+        this.tardiness = Math.max(0, ((this.timeStartProcesing + this.procesingTime) - this.dueDate));
+    }       
     
     @Override
     public int hashCode() {

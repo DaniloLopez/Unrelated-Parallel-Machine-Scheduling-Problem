@@ -10,10 +10,14 @@ import java.util.List;
 public class Machine{
     
     List<Job> jobs;
+    List<Double> configTime;
+    List<Double> idle;
     double processing; //capacity processing        
 
     public Machine(double processing) {
         this.processing = processing;
+        this.configTime = new ArrayList<>();
+        this.idle = new ArrayList<>();
         jobs = new ArrayList<>();        
     }
 
@@ -31,10 +35,31 @@ public class Machine{
 
     public void setProcessing(double processing) {
         this.processing = processing;
-    }    
+    }                    
+
+    public List<Double> getConfigTime() {
+        return configTime;
+    }
+
+    public void setConfigTime(List<Double> configTime) {
+        this.configTime = configTime;
+    }
+
+    public List<Double> getIdle() {
+        return idle;
+    }
+
+    public void setIdle(List<Double> idle) {
+        this.idle = idle;
+    }
     
-    public boolean addJob(Job job){
-        return jobs.add(job);
+    //<editor-fold defaultstate="collapsed" desc="add elements in lists">    
+    public boolean addConfigTime(double time){
+        return this.configTime.add(time);        
+    }
+    
+    public boolean  addIdle(double idle){
+        return this.idle.add(idle);
     }
     
     public boolean addJob(int pos, Job job){
@@ -46,6 +71,12 @@ public class Machine{
         }
         return false;
     }
+    
+    public boolean addJob(Job job){
+        return jobs.add(job);
+    }
+    //</editor-fold>
+    
         
     public Machine copy(){
         try{

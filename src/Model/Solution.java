@@ -33,9 +33,32 @@ public class Solution {
     }
     
     public boolean addJobToMachine(int m, Job job){
-        job.setProcessingTime(machines.get(m).getProcessing());
-        return machines.get(m).addJob(job);
+        job.setProcesingTime(machines.get(m).getProcessing()); // set procesing time                
+        if(machines.get(m).getJobs().size() > 0){            
+            //add idle and configuration time in respecty list
+            machines.get(m).addIdle(generateIdle(job.getProcesingTime()));
+            machines.get(m).addConfigTime(generateConfigTime(job.getProcesingTime()));            
+        }
+        job.setTimeStartProcesing(calculateTimeStarProcesing(m));//set start procesing to job
+        return machines.get(m).addJob(job); //add job in jobs list of a machine
+    }        
+
+    private double generateIdle(double procesingTime) {
+        //se generan a aleatoriamente entre o y el tiempo de procesamiento del nuevo job
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    private double generateConfigTime(double procesingTime) {
+        //se generan a aleatoriamente entre o y el tiempo de procesamiento del nuevo job
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private double calculateTimeStarProcesing(int m) {
+        //se debe sumar los timepos de procesamiento, configuracion y espera anteriores
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+ 
     /**
      * clone objet Solution
      * @return copy of Solution
@@ -47,10 +70,12 @@ public class Solution {
     } 
         
     public void calculateObjetiveFunction(){
+        double sum = 0;
         for (Machine machine : machines) {
-            leer paper
+            for (Job job : machine.getJobs()) {
+                sum = job.getAj()*job.getEarlines() + job.getBj()*job.getTardiness();
+            }
         }
+        fitness = sum;
     }
-    
-    
 }
