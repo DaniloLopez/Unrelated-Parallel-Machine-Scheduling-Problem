@@ -1,5 +1,6 @@
 package Model;
 
+import Utilities.Aleatorio;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,18 +45,30 @@ public class Solution {
     }        
 
     private double generateIdle(double procesingTime) {
-        //se generan a aleatoriamente entre o y el tiempo de procesamiento del nuevo job
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //se generan numero aleatoriamente entre o y el tiempo de procesamiento del nuevo job
+        return new Aleatorio().aleatorioReal(0, procesingTime);
     }
 
     private double generateConfigTime(double procesingTime) {
-        //se generan a aleatoriamente entre o y el tiempo de procesamiento del nuevo job
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //se generan numero aleatoriamente entre o y el tiempo de procesamiento del nuevo job        
+        return new Aleatorio().aleatorioReal(0, procesingTime);
     }
 
     private double calculateTimeStarProcesing(int m) {
         //se debe sumar los timepos de procesamiento, configuracion y espera anteriores
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double suma = 0;
+        for (Machine machine : machines) {
+            List<Job> jobs = machine.getJobs();
+            List<Double> configTimes = machine.getConfigTime();
+            List<Double> idles = machine.getIdle();
+            for (int i = 0; i < jobs.size(); i++) {
+                suma += jobs.get(i).getProcesingTime();
+                if(i < idles.size()){
+                    suma += configTimes.get(i) + idles.get(i);                    
+                }                
+            }
+        }
+        return suma;
     }
 
  
@@ -69,7 +82,7 @@ public class Solution {
         return (Solution)super.clone();       
     } 
         
-    public void calculateObjetiveFunction(){
+    public void calculateObjetiveFunction(){ 
         double sum = 0;
         for (Machine machine : machines) {
             for (Job job : machine.getJobs()) {

@@ -18,7 +18,7 @@ public class Metaheuristicas_Grasp {
         int numberJobs; //number of jobs
         int numberMachines; //number of machines
         
-        int numberREpeatHC; //number of repetitions to run algorithm hill climbing search
+        int numberRepeatHC; //number of repetitions to run algorithm hill climbing search
         
         
     }
