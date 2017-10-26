@@ -33,6 +33,7 @@ public class Solution {
     }
     
     public boolean addJobToMachine(int m, Job job){
+        job.setProcessingTime(machines.get(m).getProcessing());
         return machines.get(m).addJob(job);
     }
     /**
@@ -44,9 +45,11 @@ public class Solution {
     public Solution clone() throws CloneNotSupportedException{        
         return (Solution)super.clone();       
     } 
-    
-    public void calculateObjetiveFunction(){
         
+    public void calculateObjetiveFunction(){
+        for (Machine machine : machines) {
+            leer paper
+        }
     }
     
     

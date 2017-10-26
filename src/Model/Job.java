@@ -8,6 +8,7 @@ import java.util.Objects;
  */
 public class Job {
     int id;
+    double complex; //indica la complejidad del trabajo que se ingresa
     double processingTime;  //Pjk - Ci,k = Completion time of job i at machine k
     String dueDate;         //dj - due date
     double aj;              //alpha Aj.
@@ -35,7 +36,7 @@ public class Job {
     }
 
     public void setProcessingTime(double processingTime) {
-        this.processingTime = processingTime;
+        this.processingTime = processingTime * complex;
     }
 
     public String getDueDate() {
@@ -78,6 +79,15 @@ public class Job {
         this.tardiness = tardiness;
     }
 
+    public double getComplex() {
+        return complex;
+    }
+
+    public void setComplex(double complex) {
+        this.complex = complex;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 5;
