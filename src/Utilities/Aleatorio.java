@@ -158,10 +158,19 @@ public class Aleatorio {
      */    
     public int aleatorioEntero(int min, int max){                
         // Numero entero entre min y max
-        if(max - min <= 0)
+        int al;
+        if(max==0)
+        {
+             al=0;
+        }
+        else
+        {
+            if(max - min <= 0)
             System.out.println("min: " + min + " max: " + max);
                 
-        int al = numAleatorio.nextInt(max-min) + min;                                                
+            al = numAleatorio.nextInt(max-min) + min; 
+        }
+                                                       
         return al;
     }    
     
