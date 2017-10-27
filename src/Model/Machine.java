@@ -13,14 +13,24 @@ public class Machine{
     List<Double> configTime;
     List<Double> idle;
     double processing; //capacity processing        
+    double fitness;
 
     public Machine(double processing) {
         this.processing = processing;
         this.configTime = new ArrayList<>();
         this.idle = new ArrayList<>();
-        jobs = new ArrayList<>();        
+        jobs = new ArrayList<>();     
+        fitness = Double.MAX_VALUE;
     }
 
+    public double getFitness() {
+        return fitness;
+    }
+
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
+    }
+        
     public List<Job> getJobs() {
         return jobs;
     }
@@ -62,6 +72,14 @@ public class Machine{
         return this.idle.add(idle);
     }
     
+     public void calculateObjetiveFunction(){ 
+        double sum = 0;
+        for (Job job : jobs) {
+            sum += job.getAj()*job.getEarlines() + job.getBj()*job.getTardiness();
+        }
+        fitness = sum;
+    }
+     
     public boolean addJob(int pos, Job job){
         try{
             jobs.add(pos, job);

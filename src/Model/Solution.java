@@ -9,12 +9,10 @@ import java.util.List;
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
 public class Solution {
-    List<Machine> machines;
-    double fitness;
+    List<Machine> machines;    
 
     public Solution() {
-        machines = new ArrayList<>();
-        fitness = Double.MAX_VALUE;
+        machines = new ArrayList<>();        
     }
 
     public List<Machine> getMachines() {
@@ -23,15 +21,7 @@ public class Solution {
 
     public void setMachines(List<Machine> machines) {
         this.machines = machines;
-    }
-
-    public double getFitness() {
-        return fitness;
-    }
-
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
-    }
+    }   
     
     public boolean addJobToMachine(int m, Job job){
         job.setProcesingTime(machines.get(m).getProcessing()); // set procesing time                
@@ -40,8 +30,16 @@ public class Solution {
             machines.get(m).addIdle(generateIdle(job.getProcesingTime()));
             machines.get(m).addConfigTime(generateConfigTime(job.getProcesingTime()));            
         }
-        job.setTimeStartProcesing(calculateTimeStarProcesing(m));//set start procesing to job
-        return machines.get(m).addJob(job); //add job in jobs list of a machine
+        double start = calculateTimeStarProcesing(m);
+        //asks if the job can begin at the exact time for its due date
+        if(start < (job.getDueDate() - job.getProcesingTime())){
+            job.setTimeStartProcesing(start);//set start procesing to job
+        }else{
+            job.setTimeStartProcesing(start);//set start procesing to job
+        }      
+        machines.get(m).addJob(job);
+        machines.get(m).calculateObjetiveFunction();
+        return  true;//add job in jobs list of a machine
     }        
 
     private double generateIdle(double procesingTime) {
@@ -58,16 +56,14 @@ public class Solution {
         //se debe sumar los timepos de procesamiento, configuracion y espera anteriores
         double suma = 0;
         for (Machine machine : machines) {
-            List<Job> jobs = machine.getJobs();
-            List<Double> configTimes = machine.getConfigTime();
-            List<Double> idles = machine.getIdle();
+            List<Job> jobs = machine.getJobs();            
             for (int i = 0; i < jobs.size(); i++) {
                 suma += jobs.get(i).getProcesingTime();
-                if(i < idles.size()){
-                    suma += configTimes.get(i) + idles.get(i);                    
-                }                
+                if(i < machine.getIdle().size()){
+                    suma += machine.getConfigTime().get(i) + machine.getIdle().get(i);                    
+                }
             }
-        }
+        }        
         return suma;
     }
 
@@ -81,14 +77,12 @@ public class Solution {
     public Solution clone() throws CloneNotSupportedException{        
         return (Solution)super.clone();       
     } 
-        
-    public void calculateObjetiveFunction(){ 
-        double sum = 0;
+    
+    public double getFitness(){
+        int sum = 0;
         for (Machine machine : machines) {
-            for (Job job : machine.getJobs()) {
-                sum = job.getAj()*job.getEarlines() + job.getBj()*job.getTardiness();
-            }
+            sum += machine.getFitness();
         }
-        fitness = sum;
+        return sum;
     }
 }

@@ -24,6 +24,11 @@ public class Job {
         this.bj = bj;
     }
 
+    public Job(Job get) {
+        id = get.getId();
+        complex = get.getComplex();
+    }
+
     public int getId() {
         return id;
     }

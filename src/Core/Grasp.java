@@ -29,12 +29,11 @@ public class Grasp {
             List<Job> jobsCopy = copyListJobs(jobs); //copy dates to new list from jobs
             orderList(jobsCopy); //order list of jobs
             do{ //function greedy
-                int pos = foundMachineLowestFitness(machines);
+                int pos = foundMachineLowestFitness(solution);
                 int al = new Aleatorio().aleatorioEntero(0, jobsCopy.size());
                 solution.addJobToMachine(pos, jobsCopy.get(al));
-                jobsCopy.remove(al);
-                calculateObjetiveFunction(machines);
-            }while(!jobsCopy.isEmpty());//s is a complete solution
+                jobsCopy.remove(al);                
+            }while(!jobsCopy.isEmpty());//s is a complete solution                        
             
             for(int i = 0; i < m; i++){  //Hill Climbing
                 Solution R = tweak(solution);
@@ -60,30 +59,32 @@ public class Grasp {
 
     private boolean idealSolution(Solution best) {
         //evaular se la solucion es la ideal
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Machine mac : best.getMachines()) {
+            //if all the fitness to machines are zero, DO NOT return false;            
+            if (mac.getFitness() != 0)
+                return false;            
+        }
+        return true;
     }
 
-    private int foundMachineLowestFitness(List<Machine> machines) {        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private int foundMachineLowestFitness(Solution solution) {        
+        int pos = -1;
+        List<Machine> machines = solution.getMachines();
+        for (int i = 0; i < solution.getMachines().size(); i++) {
+            if(pos == -1 || machines.get(i).getFitness() < machines.get(pos).getFitness())
+                pos = i;
+        }
+        return pos;
     }
           
     public void orderList(List<Job> list){
-        list.sort(new Comparator<Job>() {
-            @Override
-            public int compare(Job t, Job t1) {
-                //implementar criterio de comparacion
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
+        list.sort((Job t, Job t1) -> new Integer(t.getId()).compareTo(t1.getId()));
     }
-
-    private void calculateObjetiveFunction(List<Machine> machines) {
-        //calcular la funcion obj de cada machine
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+        
     public List<Job> copyListJobs(List<Job> list){
         //metodo para copiar una lista a otra
-        throw new UnsupportedOperationException("not suport yet");
+        List<Job> copy = new ArrayList<>(list);        
+        return copy;
     }
+  
 }
