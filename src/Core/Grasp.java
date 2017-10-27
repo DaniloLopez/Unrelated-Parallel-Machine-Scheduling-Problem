@@ -49,6 +49,7 @@ public class Grasp {
             }
             
             EFOs--;
+            System.out.println(best.getFitness());
         }while(EFOs != 0);
         
         return best;
@@ -56,14 +57,18 @@ public class Grasp {
 
     private Solution tweak(Solution solution) {
         //alterar la solucion con alguna modificacion de parametros de idle, timeconfig no se debria tocar
-        int con = 1;
-        int posMaquinaI = new Aleatorio().aleatorioEntero(0, solution.getMachines().size());
+        int posMaquinaI;
+        do{
+            posMaquinaI = new Aleatorio().aleatorioEntero(0, solution.getMachines().size());
+        }while(solution.getMachines().get(posMaquinaI).getJobs().isEmpty());
+      
         int posTrabajoI = new Aleatorio().aleatorioEntero(0, solution.getMachines().get(posMaquinaI).getJobs().size());
         int posMaquinaF ;
         int posTrabajoF ;
+
         do{
             posMaquinaF = new Aleatorio().aleatorioEntero(0, solution.getMachines().size());
-            posTrabajoF = new Aleatorio().aleatorioEntero(0, solution.getMachines().get(posMaquinaI).getJobs().size());
+            posTrabajoF = new Aleatorio().aleatorioEntero(0, solution.getMachines().get(posMaquinaF).getJobs().size());
         }while(posMaquinaI==posMaquinaF && posTrabajoI==posTrabajoF);
         
  
@@ -80,7 +85,7 @@ public class Grasp {
             else if(posMaquinaI==posMaquinaF)
             {
                 jobsI=maquina.getJobs();
-                jobsF=jobsI;
+                jobsF=maquina.getJobs();
                 maquinas.add(new Machine(maquina.getProcessing()));
             }
             else if(pos==posMaquinaI)
