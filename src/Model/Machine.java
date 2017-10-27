@@ -20,7 +20,7 @@ public class Machine{
         this.configTime = new ArrayList<>();
         this.idle = new ArrayList<>();
         jobs = new ArrayList<>();     
-        fitness = Double.MAX_VALUE;
+        fitness = Double.MIN_VALUE;
     }
 
     public double getFitness() {

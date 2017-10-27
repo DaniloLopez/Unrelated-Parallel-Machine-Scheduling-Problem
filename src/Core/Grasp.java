@@ -56,6 +56,7 @@ public class Grasp {
 
     private Solution tweak(Solution solution) {
         //alterar la solucion con alguna modificacion de parametros de idle, timeconfig no se debria tocar
+        int con = 1;
         int posMaquinaI = new Aleatorio().aleatorioEntero(0, solution.getMachines().size());
         int posTrabajoI = new Aleatorio().aleatorioEntero(0, solution.getMachines().get(posMaquinaI).getJobs().size());
         int posMaquinaF ;
@@ -108,7 +109,7 @@ public class Grasp {
             }
         }
         else
-        {
+        {                        
             Job job=jobsI.get(posTrabajoI);
             jobsI.remove(posTrabajoI);
             jobsF.add(posTrabajoF, job);
@@ -136,7 +137,7 @@ public class Grasp {
         int pos = -1;
         List<Machine> machines = solution.getMachines();
         for (int i = 0; i < solution.getMachines().size(); i++) {
-            if(pos == -1 || machines.get(i).getFitness() > machines.get(pos).getFitness())
+            if(pos == -1 || machines.get(i).getFitness() < machines.get(pos).getFitness())
                 pos = i;
         }
         return pos;
