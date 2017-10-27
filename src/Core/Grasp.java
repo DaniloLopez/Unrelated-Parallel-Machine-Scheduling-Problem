@@ -56,11 +56,11 @@ public class Grasp {
     }
 
     private Solution tweak(Solution solution) {
-        //alterar la solucion con alguna modificacion de parametros de idle, timeconfig no se debria tocar
+        //se escoge un trabajo aleatoreo de una maquina aleatorea y se mueve ese trabajo a otra maquina aleatorea en una posicion aleatorea
         int posMaquinaI;
         do{
             posMaquinaI = new Aleatorio().aleatorioEntero(0, solution.getMachines().size());
-        }while(solution.getMachines().get(posMaquinaI).getJobs().isEmpty());
+        }while(solution.getMachines().get(posMaquinaI).getJobs().isEmpty());//selecciona una maquina aleatorea asegurandose de que tenga trabajos
       
         int posTrabajoI = new Aleatorio().aleatorioEntero(0, solution.getMachines().get(posMaquinaI).getJobs().size());
         int posMaquinaF ;
@@ -69,7 +69,7 @@ public class Grasp {
         do{
             posMaquinaF = new Aleatorio().aleatorioEntero(0, solution.getMachines().size());
             posTrabajoF = new Aleatorio().aleatorioEntero(0, solution.getMachines().get(posMaquinaF).getJobs().size());
-        }while(posMaquinaI==posMaquinaF && posTrabajoI==posTrabajoF);
+        }while(posMaquinaI==posMaquinaF && posTrabajoI==posTrabajoF);//se escoje aleatoreamente a donde se va a mover el trabajo asegurandose de que si va a ir a la misma maquina de donde viene por lo menos sea en una posicion diferente
         
  
         List<Machine> maquinas= new ArrayList<>();  
@@ -78,22 +78,23 @@ public class Grasp {
         int pos=0;
         for (Machine maquina : solution.getMachines()) 
         {
-            if(pos!=posMaquinaI && pos!=posMaquinaF)
+            if(pos!=posMaquinaI && pos!=posMaquinaF)//si la maquina k no es la maquina de la que proviene  el trabajo o hacia donde va el trabajo se guarda esa maquina tal cual ya que no se va a modificar
             {
                 maquinas.add(maquina);
             }
-            else if(posMaquinaI==posMaquinaF)
+            else if(posMaquinaI==posMaquinaF)//si el origen y el destino de un trabajo corresponde a la misma maquina se asignan los trabajos de esas maquinas  tanto a jobsI(trabajos de la maquina origen) como de jobsF(trabajos de la maquina destino)
             {
                 jobsI=maquina.getJobs();
                 jobsF=maquina.getJobs();
                 maquinas.add(new Machine(maquina.getProcessing()));
             }
-            else if(pos==posMaquinaI)
+            //si el origen y destino son diferentes
+            else if(pos==posMaquinaI)//si nos encontramos hubicados en la maquina de origen se aginan los trabajos de esa maquina a jobsI(trabajos maquina origen)
             {
                 jobsI=maquina.getJobs();
                 maquinas.add(new Machine(maquina.getProcessing()));
             }
-            else
+            else//si nos encontramos hubicados en la maquina de destino se aginan los trabajos de esa maquina a jobsF(trabajos maquina destino)
             {
                 jobsF=maquina.getJobs();
                 maquinas.add(new Machine(maquina.getProcessing()));
@@ -104,24 +105,24 @@ public class Grasp {
         
         Solution nueva = new Solution();
         nueva.setMachines(maquinas);
-        if(posMaquinaI==posMaquinaF)
+        if(posMaquinaI==posMaquinaF)//si la maquina de destino y origen son las mismas 
         {
-            Job job=jobsI.get(posTrabajoI);
-            jobsI.remove(posTrabajoI);
-            jobsI.add(posTrabajoF, job);
-            for (Job j : jobsI) {
+            Job job=jobsI.get(posTrabajoI);//se guarda el trabajo que se va a eliminar
+            jobsI.remove(posTrabajoI);//se elimina ese trabajo
+            jobsI.add(posTrabajoF, job);//se agrega el trabajo en la nueva posicion
+            for (Job j : jobsI) {//se agregan todos los trabajos a la maquina
                 nueva.addJobToMachine(posMaquinaI, j);
             }
         }
         else
         {                        
-            Job job=jobsI.get(posTrabajoI);
-            jobsI.remove(posTrabajoI);
-            jobsF.add(posTrabajoF, job);
-            for (Job j : jobsI) {
+            Job job=jobsI.get(posTrabajoI);//se guarda el trabajo que se va a eliminar
+            jobsI.remove(posTrabajoI);//se elimina ese trabajo de la maquina de origen
+            jobsF.add(posTrabajoF, job);//se agrega el trabajo en la nueva posicion de la maquina de destino
+            for (Job j : jobsI) {//se agregan la nueva estructura de trabajos en la maquina de origen
                 nueva.addJobToMachine(posMaquinaI, j);
             }
-            for (Job j : jobsF) {
+            for (Job j : jobsF) {//se agregan la nueva estructura de trabajos en la maquina de destino
                 nueva.addJobToMachine(posMaquinaF, j);
             }
         }
