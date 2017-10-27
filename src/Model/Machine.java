@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
-public class Machine{
+public class Machine implements Cloneable{
     
     List<Job> jobs;
     List<Double> configTime;
@@ -17,6 +17,14 @@ public class Machine{
 
     public Machine(double processing) {
         this.processing = processing;
+        this.configTime = new ArrayList<>();
+        this.idle = new ArrayList<>();
+        jobs = new ArrayList<>();     
+        fitness = Double.MIN_VALUE;
+    }
+
+    public Machine(Machine machine) {
+        processing = machine.getProcessing();
         this.configTime = new ArrayList<>();
         this.idle = new ArrayList<>();
         jobs = new ArrayList<>();     

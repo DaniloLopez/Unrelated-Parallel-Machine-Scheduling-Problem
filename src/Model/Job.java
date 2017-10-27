@@ -26,8 +26,11 @@ public class Job {
     }
 
     public Job(Job get) {
-        id = get.getId();
-        complexity = get.getComplexity();
+        this.id = get.getId();
+        this.dueDate = get.getDueDate();
+        this.aj = get.getAj();
+        this.bj = get.getBj();
+        this.complexity = get.getComplexity();
     }
 
     public int getId() {

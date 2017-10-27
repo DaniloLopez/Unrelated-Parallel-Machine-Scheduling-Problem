@@ -27,7 +27,7 @@ public class Grasp {
         Solution best = null;        
         do{
             Solution solution = new Solution();
-            solution.setMachines(machines);
+            solution.setMachines(copyListMachines(machines));
             List<Job> jobsCopy = copyListJobs(jobs); //copy dates to new list from jobs
             orderList(jobsCopy); //order list of jobs
             do{ //function greedy
@@ -39,10 +39,10 @@ public class Grasp {
             
             for(int i = 0; i < m; i++){  //Hill Climbing
                 Solution R = tweak(solution);
-                if(solution.getFitness() < R.getFitness())
+                if(solution.getFitness() > R.getFitness())
                     solution = R;
             }
-            if(best == null || solution.getFitness() > best.getFitness())
+            if(best == null || solution.getFitness() < best.getFitness())
                 best = solution;
             if(idealSolution(best)){
                 return best;
@@ -154,8 +154,19 @@ public class Grasp {
         
     public List<Job> copyListJobs(List<Job> list){
         //metodo para copiar una lista a otra
-        List<Job> copy = new ArrayList<>(list);        
+        List<Job> copy = new ArrayList<>();
+        for (Job job : list) {
+            copy.add(new Job(job));
+        }
         return copy;
+    }  
+
+    private List<Machine> copyListMachines(List<Machine> machines) {
+        List<Machine> clone = new ArrayList<>();
+        machines.stream().forEach((machine) -> {
+            clone.add(new Machine(machine));
+        });
+        return clone;
     }
   
 }
