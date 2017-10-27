@@ -8,7 +8,7 @@ import java.util.Objects;
  */
 public class Job {
     int id;
-    double complex; //indica la complejidad del trabajo que se ingresa
+    double complexity; //indica la complejidad del trabajo que se ingresa
     double procesingTime;  //Pjk - Ci,k = Completion time of job i at machine k
     double timeStartProcesing;
     double dueDate;         //dj - due date
@@ -17,16 +17,17 @@ public class Job {
     double earlines;        //  Ei = Earliness of job i
     double tardiness;       // Ti = Tardiness of job i
 
-    public Job(int id, double dueDate, double aj, double bj) {
+    public Job(int id, double dueDate, double aj, double bj, double complex ) {
         this.id = id;
         this.dueDate = dueDate;
         this.aj = aj;
         this.bj = bj;
+        this.complexity = complex;
     }
 
     public Job(Job get) {
         id = get.getId();
-        complex = get.getComplex();
+        complexity = get.getComplexity();
     }
 
     public int getId() {
@@ -41,8 +42,8 @@ public class Job {
         return procesingTime;
     }
 
-    public void setProcesingTime(double procesingTime) {
-        this.procesingTime = procesingTime * complex;        
+    public void setProcesingTime(double capacityProcessingMachine) {
+        this.procesingTime = complexity / capacityProcessingMachine;
     }
 
     public double getDueDate() {
@@ -85,12 +86,12 @@ public class Job {
         this.tardiness = tardiness;
     }
 
-    public double getComplex() {
-        return complex;
+    public double getComplexity() {
+        return complexity;
     }
 
-    public void setComplex(double complex) {
-        this.complex = complex;
+    public void setComplexity(double complexity) {
+        this.complexity = complexity;
     }
 
     public double getTimeStartProcesing() {

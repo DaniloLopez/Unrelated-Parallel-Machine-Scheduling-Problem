@@ -23,10 +23,11 @@ public class Grasp {
      * @param machines     
      * @return best solution found
      */
-    public Solution grasp(int m, int EFOs, List<Job> jobs, List<Machine> machines){                
+    public Solution run(int m, int EFOs, List<Job> jobs, List<Machine> machines){                
         Solution best = null;        
         do{
             Solution solution = new Solution();
+            solution.setMachines(machines);
             List<Job> jobsCopy = copyListJobs(jobs); //copy dates to new list from jobs
             orderList(jobsCopy); //order list of jobs
             do{ //function greedy
@@ -135,7 +136,7 @@ public class Grasp {
         int pos = -1;
         List<Machine> machines = solution.getMachines();
         for (int i = 0; i < solution.getMachines().size(); i++) {
-            if(pos == -1 || machines.get(i).getFitness() < machines.get(pos).getFitness())
+            if(pos == -1 || machines.get(i).getFitness() > machines.get(pos).getFitness())
                 pos = i;
         }
         return pos;

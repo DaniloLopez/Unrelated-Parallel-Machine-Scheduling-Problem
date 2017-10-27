@@ -85,4 +85,11 @@ public class Solution {
         }
         return sum;
     }
+
+    @Override
+    public String toString() {
+        return "Solution{" + "machines=" + machines + '}';
+    }
+    
+    
 }
