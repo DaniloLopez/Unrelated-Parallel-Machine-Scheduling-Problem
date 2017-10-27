@@ -6,6 +6,7 @@ import Model.Solution;
 import Utilities.Aleatorio;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -54,7 +55,70 @@ public class Grasp {
 
     private Solution tweak(Solution solution) {
         //alterar la solucion con alguna modificacion de parametros de idle, timeconfig no se debria tocar
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int posMaquinaI = new Aleatorio().aleatorioEntero(0, solution.getMachines().size());
+        int posTrabajoI = new Aleatorio().aleatorioEntero(0, solution.getMachines().get(posMaquinaI).getJobs().size());
+        int posMaquinaF ;
+        int posTrabajoF ;
+        do{
+            posMaquinaF = new Aleatorio().aleatorioEntero(0, solution.getMachines().size());
+            posTrabajoF = new Aleatorio().aleatorioEntero(0, solution.getMachines().get(posMaquinaI).getJobs().size());
+        }while(posMaquinaI==posMaquinaF && posTrabajoI==posTrabajoF);
+        
+ 
+        List<Machine> maquinas= new ArrayList<>();  
+        List<Job> jobsI= new ArrayList<>();  
+        List<Job> jobsF= new ArrayList<>();  
+        int pos=0;
+        for (Machine maquina : solution.getMachines()) 
+        {
+            if(pos!=posMaquinaI && pos!=posMaquinaF)
+            {
+                maquinas.add(maquina);
+            }
+            else if(posMaquinaI==posMaquinaF)
+            {
+                jobsI=maquina.getJobs();
+                jobsF=jobsI;
+                maquinas.add(new Machine(maquina.getProcessing()));
+            }
+            else if(pos==posMaquinaI)
+            {
+                jobsI=maquina.getJobs();
+                maquinas.add(new Machine(maquina.getProcessing()));
+            }
+            else
+            {
+                jobsF=maquina.getJobs();
+                maquinas.add(new Machine(maquina.getProcessing()));
+            }
+            
+            pos++;
+        }
+        
+        Solution nueva = new Solution();
+        nueva.setMachines(maquinas);
+        if(posMaquinaI==posMaquinaF)
+        {
+            Job job=jobsI.get(posTrabajoI);
+            jobsI.remove(posTrabajoI);
+            jobsI.add(posTrabajoF, job);
+            for (Job j : jobsI) {
+                nueva.addJobToMachine(posMaquinaI, j);
+            }
+        }
+        else
+        {
+            Job job=jobsI.get(posTrabajoI);
+            jobsI.remove(posTrabajoI);
+            jobsF.add(posTrabajoF, job);
+            for (Job j : jobsI) {
+                nueva.addJobToMachine(posMaquinaI, j);
+            }
+            for (Job j : jobsF) {
+                nueva.addJobToMachine(posMaquinaF, j);
+            }
+        }
+        return nueva; 
     }
 
     private boolean idealSolution(Solution best) {
