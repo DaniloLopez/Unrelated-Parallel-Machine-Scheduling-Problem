@@ -88,7 +88,20 @@ public class Solution {
 
     @Override
     public String toString() {
-        return "Solution{" + "machines=" + machines + '}';
+        String r= "Solution{\n";
+        int cont=0;
+        for (Machine machine : machines) {
+            r+="machine["+cont+"]=[";
+            for(Job j : machine.getJobs())
+            {
+                r+=String.valueOf(j.getId())+",";
+                
+            }
+            r+="]\n";
+            cont++;
+        }
+        return r+'}';
+        //return "Solution{" + "machines=" + machines + '}';
     }
     
     

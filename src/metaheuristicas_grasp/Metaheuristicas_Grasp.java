@@ -25,7 +25,7 @@ public class Metaheuristicas_Grasp {
         int EFOs = 5000;
         int numberJobs = 6; //number of jobs
         int numberMachines = 2; //number of machines        
-        int numberRepeatHC = 5; //number of repetitions to run algorithm hill climbing search
+        int numberRepeatHC = 10; //number of repetitions to run algorithm hill climbing search
         
         List<Job> jobs = new ArrayList<>();
         List<Machine> machines = new ArrayList<>();
