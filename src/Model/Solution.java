@@ -92,11 +92,16 @@ public class Solution {
         int cont=0;
         for (Machine machine : machines) {
             r+="machine["+cont+"]=[";
-            for(Job j : machine.getJobs())
-            {
-                r+=String.valueOf(j.getId())+",";
-                
+            for (int i = 0; i < machine.getJobs().size(); i++) {
+                r += machine.getJobs().get(i).getId();
+                if(i+1 != machine.getJobs().size()){
+                    r += "," ;
+                }
             }
+//            for(Job j : machine.getJobs())
+//            {
+//                r += j.getId()+",";                
+//            }
             r+="]\n";
             cont++;
         }

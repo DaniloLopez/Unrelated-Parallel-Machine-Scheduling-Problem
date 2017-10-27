@@ -46,8 +46,7 @@ public class Grasp {
                 best = solution;
             if(idealSolution(best)){
                 return best;
-            }
-            
+            }            
             EFOs--;
             System.out.println(best.getFitness());
         }while(EFOs != 0);
@@ -132,7 +131,7 @@ public class Grasp {
         //evaular se la solucion es la ideal
         for (Machine mac : best.getMachines()) {
             //if all the fitness to machines are zero, DO NOT return false;            
-            if (mac.getFitness() != 0)
+            if (mac.getFitness() != 0.1)
                 return false;            
         }
         return true;
