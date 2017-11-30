@@ -3,6 +3,7 @@ package Model;
 import Utilities.Aleatorio;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -20,7 +21,9 @@ public class Solution {
     }
 
     public void setMachines(List<Machine> machines) {
-        this.machines = machines;
+        machines.stream().forEach((machine) -> {
+            this.machines.add(machine.copy());
+        });        
     }   
     
     public boolean addJobToMachine(int m, Job job){
@@ -88,7 +91,7 @@ public class Solution {
 
     @Override
     public String toString() {
-        String r= "Solution{\n";
+        String r= "Solution{ ";
         int cont=0;
         for (Machine machine : machines) {
             r+="machine["+cont+"]=[";
@@ -98,16 +101,37 @@ public class Solution {
                     r += "," ;
                 }
             }
-//            for(Job j : machine.getJobs())
-//            {
-//                r += j.getId()+",";                
-//            }
-            r+="]\n";
+            r+="] , ";
             cont++;
         }
-        return r+'}';
-        //return "Solution{" + "machines=" + machines + '}';
+        return r+'}';        
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.machines);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Solution other = (Solution) obj;
+        if (!Objects.equals(this.machines, other.machines)) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }

@@ -9,8 +9,8 @@ import java.util.Random;
  */
 public class Aleatorio {
     
-    public int semilla ;
-    public static Random numAleatorio;
+    private int semilla ;
+    private static Random numAleatorio;
     
     /**
      * inicializa la semilla de la clase, luego de esto se ignora la semilla     
@@ -159,18 +159,13 @@ public class Aleatorio {
     public int aleatorioEntero(int min, int max){                
         // Numero entero entre min y max
         int al;
-        if(max==0)
-        {
+        if(max==0){
              al=0;
-        }
-        else
-        {
+        }else{
             if(max - min <= 0)
-            System.out.println("min: " + min + " max: " + max);
-                
+                System.out.println("min: " + min + " max: " + max);                
             al = numAleatorio.nextInt(max-min) + min; 
-        }
-                                                       
+        }                                                       
         return al;
     }    
     

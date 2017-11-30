@@ -15,16 +15,22 @@ public class Grasp_Tabu extends Grasp_Abstract{
     
      /**
      * Execute algorith GRASP + ILS to found solution for machine problem
-     * @param m lenght of time to do hill climbing
+     * @param n lenght of time to do hill climbing
      * @param EFOs number of iterations
      * @param jobs     
      * @param machines     
      * @return best solution found
      */
     @Override
-    public Solution run(int m, int EFOs, List<Job> jobs, List<Machine> machines){                
+    public Solution run(int n, int EFOs, List<Job> jobs, List<Machine> machines){                
+        int l = 5;
+        boolean flag = true;
         Solution best = null;        
+        ArrayList<Solution> tabu = new ArrayList<>();//list as first in, first out queue
         do{
+            if(tabu.size() >= 5){
+                tabu.remove(0);
+            }
             Solution solution = new Solution();
             solution.setMachines(copyListMachines(machines));
             List<Job> jobsCopy = copyListJobs(jobs); //copy dates to new list from jobs
@@ -33,16 +39,29 @@ public class Grasp_Tabu extends Grasp_Abstract{
                 int pos = foundMachineLowestFitness(solution);
                 int al = new Aleatorio().aleatorioEntero(0, jobsCopy.size());
                 solution.addJobToMachine(pos, jobsCopy.get(al));
-                jobsCopy.remove(al);                
+                jobsCopy.remove(al);
             }while(!jobsCopy.isEmpty());//s is a complete solution                        
             
-            for(int i = 0; i < m; i++){  //Hill Climbing
-                Solution R = tweak(solution);
-                if(solution.getFitness() > R.getFitness())
-                    solution = R;
+            if(flag){
+                tabu.add(solution);//declare lista and includ initial solution
+                flag = !flag;
             }
+            
+            Solution R = tweak(solution);
+            for(int i = 0; i < n; i++){  //Hill Climbing
+                Solution W = tweak(solution);
+                if(!tabu.contains(W) && W.getFitness() < R.getFitness() || tabu.contains(R)){
+                    R = W;
+                }                
+            }
+            if(!tabu.contains(R) && solution.getFitness() > R.getFitness()){
+                solution = R;
+                tabu.add(R);
+            }
+                        
             if(best == null || solution.getFitness() < best.getFitness())
                 best = solution;
+            
             if(idealSolution(best)){
                 return best;
             }            
