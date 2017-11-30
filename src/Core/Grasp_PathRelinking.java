@@ -5,16 +5,14 @@ import Model.Machine;
 import Model.Solution;
 import Utilities.Aleatorio;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 /**
  *
  * @author Danilo López - dlopezs@unicauca.edu.co
  */
-public class Grasp {
-
+public class Grasp_PathRelinking extends Grasp_Abstract{
+    
     /**
      * Execute algorith GRASP + ILS to found solution for machine problem
      * @param m lenght of time to do hill climbing
@@ -23,6 +21,7 @@ public class Grasp {
      * @param machines     
      * @return best solution found
      */
+    @Override
     public Solution run(int m, int EFOs, List<Job> jobs, List<Machine> machines){                
         Solution best = null;        
         do{
@@ -48,7 +47,7 @@ public class Grasp {
                 return best;
             }            
             EFOs--;
-            System.out.println(best.getFitness());
+            //System.out.println(best.getFitness());
         }while(EFOs != 0);
         
         return best;
@@ -167,5 +166,5 @@ public class Grasp {
         });
         return clone;
     }
-  
+
 }
