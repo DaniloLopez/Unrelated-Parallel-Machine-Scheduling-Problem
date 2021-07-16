@@ -45,8 +45,7 @@ public class Metaheuristicas_Grasp {
         algoritms.add(new Grasp_Tabu());                                
         
         ArrayList<Resultado> resFinal = new ArrayList<>();               
-        ArrayList<ArrayList<Resultado>> resultadoGlobal = new ArrayList<>();
-        System.out.println("Corriendo...");
+        ArrayList<ArrayList<Resultado>> resultadoGlobal = new ArrayList<>();        
         for (String archivo : nombreArchivos) {            
             LeerArchivoTrabajo la = new LeerArchivoTrabajo();
             Datos datos = la.leerArchivo(archivo);            
@@ -57,11 +56,12 @@ public class Metaheuristicas_Grasp {
                 Solution res = algoritm.run(numberRepeatHC, EFOs, jobs, machines);
                 long tf = System.currentTimeMillis();
                 long tt = tf - ti;
-//                System.out.println("Corriendo: " + algoritm.getClass().getName());
+                //System.out.println("Algoritmo: " + algoritm.getClass().getName() +" tamaño: " + machines.size() + "/" + jobs.size()+  " fitness: " + res.getFitness() + " solucion: " + res.toString() );
 //                System.out.println(res.toString());
 //                System.out.println("fitness: " + res.getFitness()+ "   tiempo " +tt+"\n\n");
                 resFinal.add(new Resultado(machines.size(),jobs.size(),algoritm.getClass().getSimpleName(), tt, res.getFitness(), res.toString()));
             }                        
+           //System.out.println("");
             resultadoGlobal.add((ArrayList<Resultado>)resFinal.clone());
             resFinal.clear();
         }
